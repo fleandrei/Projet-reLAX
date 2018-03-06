@@ -1,0 +1,43 @@
+#!/usr/bin/python
+#-*- coding:Utf-8 -*
+
+def test(L):
+    T=[]
+    nl=len(L)
+    for i in range(nl):
+        nlj=len(L[i])
+        for j in range(nlj):
+            if L[i][j] not in T:
+                T.append(L[i][j])
+    
+    nt=len(T)
+    if nt<nl:
+        print(L)
+        return (-1)
+    elif nt==nl:
+        return(0)
+    elif nt > nl:
+        return(1)
+
+
+L=[[4],[1,2],[3]]
+print(test(L))
+
+def verif(L):
+    c=0
+    nl=len(L)
+    condition= 0
+    while condition >=0 and c<nl: 
+        L_teste=L
+        L_teste.pop(i)
+        condition=test(L)
+        if condition<0:
+            continue
+        if nl > 2:
+            condition=verif(L_test)
+        
+        c=+1
+        
+    
+                
+        
