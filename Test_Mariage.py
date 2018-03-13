@@ -23,11 +23,11 @@ def test(L):
 
     if nt<nl:
         print(L) #Affiche la liste si elle comporte plus de filles que de garçons
-        return (-1)    
+        return -1    
     elif nt==nl:
-        return(0)
+        return 0
     elif nt > nl:
-        return(1)
+        return 1
 
 
 L=[[4],[1,2],[3],[5],[3,1,7,8],[1],[2]]
@@ -55,7 +55,7 @@ def verif(L):
     #arrète la fonction et en retourne -1 
     TL=test(L) 
     if TL<0:    
-        return -1
+        return TL
 
 
     condition= 0  #devient négatif si la fonction trouve un sous-enssemble de L
@@ -70,6 +70,7 @@ def verif(L):
         
         condition=test(L_teste)
         if condition<0:
+            L_err=L_teste[:]
             continue
         if nl > 2:
             condition=verif(L_teste) #Appel itératif à verif
@@ -83,4 +84,4 @@ def verif(L):
     
                 
         
-print(verif(L))
+#print(verif(L))

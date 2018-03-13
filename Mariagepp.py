@@ -1,9 +1,9 @@
-
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 
-L=[[1,2,3,4,5],[4,5,3],[2,3],[1,5],[1,3,5]]
-M=[[1,4],[1,3],[2,3],[4,2]]
+#L=[[1,2,3,4,5],[4,5,3],[2,3],[1,5],[1,3,5]]
+#M=[[1,4],[1,3],[2,3],[4,2]]
 
 
 def mariagepp(Liste_total_voeux) :  #Liste_total_voeux est une liste de liste des voeux par filles. Le premier élément correspond aux voeux de la première fille
@@ -213,12 +213,12 @@ def ajout_elts(L,elts,position) : #On ajoute un élément à la position souhait
 
 
 
-print("Voeux des filles à marier :" )
-print(L)
+#print("Voeux des filles à marier :" )
+#print(L)
 
-print("Résultat du mariage : ")
+#print("Résultat du mariage : ")
 
-print(mariagepp(L))
+#print(mariagepp(L))
 #print(mariagepp(M))
 
 
