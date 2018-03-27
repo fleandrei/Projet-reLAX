@@ -3,7 +3,8 @@
 
 
 '''Fichier principal regroupant tout les autres fichiers. '''
-from Mariagepp import *
+from mariagepp import *
+from ppoupas import *
 from Test_Mariage import *
 from grand import *
 from mariagepremier import *
@@ -11,35 +12,58 @@ from plusgrandpp import *
 from test import *
 
 
+#éviter les listes trop longues 
 def LemMariage(L):
-    test=verif(L)
+    condition=verif(L) #Vérifie si la liste L vérifie la condition des mariages: renvoie un nbr positif si oui et -1 sinon
     N=len(L)
-    c=0
-    if test < 0:
+    nb_filles_mariees=0 #compteur du nombre de couples mariés
+    if condition < 0:
         print("PROBLEME: La liste entrée ne vérifie pas la condition des marriages")
+        
     else:
-        L2=[]
-        M=[]
+
+
+        Pas_mariees=[] #Liste de liste contenant : numéro de la fille,liste des voeux des filles_non_mariées 
+        Maris=[]  #Garçons mariés en fonctions des filles en indice
         for i in range(N):
-            L2.append([i,L[i]])
-            M.append(0)
+            Pas_mariees.append([i,L[i]])
+            Maris.append([0])
             
-        while c < N:
-            if test: # Si test=1; donc si on est daans le cas pp+1
-                mariagepremier(L2,M)
-                c=c+1
+        while nb_filles_mariees < N:
+            condition=ppoupas(L)
+            #print(condition)
+            if condition==False: # Si condition=1; donc si on est daans le cas pp+1; 
+                mariagepremier(Pas_mariees,Maris)
+                nb_filles_mariees=nb_filles_mariees+1
                 
-            else: # Si test = 0; donc si on est dans le cas pp
-                L1=L2ToL1(L2)
-                pp1=touslespp(L1) #Liste contenant tout les enssemebles de pp
-                print("\n\n\n")
-                pp2=grand(pp1)    # pp2 est le plus grand pp parmis pp1
-                print(pp2)
-                print("\n\n")
-                pp3= ValToIndice(pp2,L2) #pp3 contient les élèments de pp2 mais avec en plus l'indices des filles qui leur correspond 
-                print(pp3)
-                
-                
+            else: # Si condition = 0; donc si on est dans le cas pp
+                Non_mariees=L2ToL1(Pas_mariees)  #Pas maries contient juste la liste des voeux des filles non mariés, sans le numéro de filles
+                Ens_de_pp=touslespp(Non_mariees) #Liste contenant tout les ensembles de pp
+                Plus_grand_pp=grand(Ens_de_pp)    
+                Plus_grand_pp_indices= ValToIndice(Plus_grand_pp,Pas_mariees) #Plus_grand_pp_indicés les voeux de filles associés avec le numéro de la fille (qui est l'indice dans dans la liste initialement (L) rentré en paramètre de la fonction) ie de la forme [numéro de la fille,[voeux de la fille]]
+                PP_maries=mariagepp(Plus_grand_pp)
+                for i in range(0,len(PP_maries)):
+                    Maris[Plus_grand_pp_indices[i][0]]=PP_maries[i]
+                  
+                    for voeux_filles in Pas_mariees:
+                        if  Plus_grand_pp_indices[i][1] == voeux_filles[1] :
+                            Pas_mariees.pop(Pas_mariees.index(voeux_filles))
+                          
+              
+                for i in range(0,len(PP_maries)):              
+                    for j in range(0,len(Pas_mariees)):
+           
+                        if Maris[Plus_grand_pp_indices[i][0]] in Pas_mariees[j][1]:
+                            Pas_mariees[j][1].pop(Pas_mariees[j][1].index(Maris[Plus_grand_pp_indices[i][0]]))
+                         
+
+
+                nb_filles_mariees=nb_filles_mariees+len(PP_maries)
+            L=L2ToL1(Pas_mariees)
+    	return(Maris)
+    
+            
+
         
     
 def LisToDic(L):
@@ -62,7 +86,7 @@ def ValToIndice(Lval,L2):
         i=0
         while t>0 and i< len(L_inter):
             if v==L_inter[i][1]:
-                L.append([L_inter[i][0],v])
+                L.append([L_inter[i][0],v[:]])
                 t=-1
             i=i+1
         L_inter.pop(i-1)
@@ -86,7 +110,7 @@ def L2ToL1(L2):
     L1=[0]*n
     
     for i in range(n):
-        L1[i]=L2[i][1]
+        L1[i]=L2[i][1][:]
         
     return L1
 
@@ -94,13 +118,13 @@ def L2ToL1(L2):
 
 
 Ln=[[4],[1,2],[3],[5],[3,1,7,8],[1],[2],[1,2],[1]]
-Lpp=[[1,2],[3],[7,3],[4,5],[6,2,7],[3,1,2],[7,5],[8,9],[8,9]]
+Lpp=[[1,2,3,5,46],[46,42,45,56],[1,2,3],[2,1],[3,2],[54,78,99,62],[99],[19,97],[19,97]]
 Lval=[[3],[1,2]]
 L2=L1ToL2(Ln)
-print(L2)
-print("\n")
-print(ValToIndice(Ln,L2))
-LemMariage(Lpp)
+#print(L2)
+#print("\n")
+#print(ValToIndice(Ln,L2))
+print(LemMariage(Lpp))
 
 
 
