@@ -1,0 +1,19 @@
+README:
+
+Ce projet contient trois dossiers: Hopcroft-Karp, Application_LAX et Notre_Méthode.
+On peut ne pas considérer les fichiers présents en dehors de ces trois dossiers.
+
+Notre_Méthode: 
+Ce dossier contient les fichiers relatives à l'implémentation du Lemme des Marriages en suivant un 
+algorithme fait par nous même. Le fichier principal est "Lemme_Mariage.py".  A l'intérieur, la fonction LemMariage prend en argument 
+une liste de sous-listes de nombres. Chaque sous-liste d'indice i représente les garçons choisis par la fille indexée par i. 
+Si la liste entrée respecte la condition des mariages, alors la fonction retourne une liste simple de nombres symbolisant le 
+mariage effectué via le Lemme, entre chaque garçon (représenté par un nombre dans la liste) et la fille représentée par son indice. 
+
+Hopcroft-Karp:
+Ce dossier contient les deux versions de l'implémentation de l'algorithme d'Hopcroft-Karp (la plus optimisée étant 
+Hopcroft-Karp Final.py) qui effectuent la même tache que précédament (prend une liste double en entrée et renvoie une liste simple),
+mais de manière beaucoup plus rapide. La Fonction principale de ces fichiers est Mariage.
+
+Application_LAX:
+
