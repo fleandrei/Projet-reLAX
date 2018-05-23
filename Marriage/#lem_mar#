@@ -1,0 +1,156 @@
+#!/usr/bin/python
+#-*- coding:Utf-8 -*
+
+
+'''Fichier principal regroupant tout les autres fichiers. '''
+from mariagepp import *
+from ppoupas import *
+from Test_Mariage import *
+from grand import *
+from mariagepremier import *
+from plusgrandpp import *
+from test import *
+
+
+#éviter les listes trop longues 
+def LemMariage(L):
+    condition=verif(L) #Vérifie si la liste L vérifie la condition des mariages: renvoie un nbr positif si oui et -1 sinon
+    N=len(L)
+    c=0 #compteur du nombre de couples mariés
+    if condition < 0:
+        print("PROBLEME: La liste entrée ne vérifie pas la condition des marriages")
+        
+    else:
+
+
+        L2=[]
+        M=[]
+        for i in range(N):
+            L2.append([i,L[i]])
+            M.append([0])
+            
+        while c < N:
+            condition=ppoupas(L)
+            print(condition)
+            if condition==False: # Si condition=1; donc si on est daans le cas pp+1; 
+                mariagepremier(L2,M)
+                c=c+1
+                
+            else: # Si condition = 0; donc si on est dans le cas pp
+                L1=L2ToL1(L2)
+                print("L2=")
+                print(L2)
+                pp1=touslespp(L1) #Liste contenant tout les enssemebles de pp
+                print("\n\n\n")
+                pp2=grand(pp1)    # pp2 est le plus grand pp parmis pp1
+                print(pp2)
+                print("\n\n")
+                pp3= ValToIndice(pp2,L2) #pp3 contient les élèments de pp2 mais avec en plus l'indices des filles qui leur correspond 
+                print("pp3:")
+                print(pp3)
+                pp2=mariagepp(pp2)
+                print(pp3)
+                for i in range(0,len(pp2)):
+                    M[pp3[i][0]]=pp2[i]
+                    print("\n Dans la boucle")
+                    for l in L2:
+                        print("\n l[1]:")
+                        print(l[1])
+                        print("\n pp3[i][1] :")
+                        print(pp3[i][1])
+                        if  pp3[i][1] == l[1] :
+                            print("si\n")
+                            L2.pop(L2.index(l))
+                            print("L2 dans le if:")
+                            print(L2)
+              
+                for i in range(0,len(pp2)):              
+                    for j in range(0,len(L2)):
+                        print("On est bien rentré dans la boucle")
+                        print(M[pp3[i][0]])
+                        print(L2[j][1])
+                        if M[pp3[i][0]] in L2[j][1]:
+                            L2[j][1].pop(L2[j][1].index(M[pp3[i][0]]))
+                            print("\n L2 dans la boucle")
+                            print(L2)
+
+
+                c=c+len(pp2)
+            print("M = ")
+            print(M)
+            print("L2=")
+            print(L2)
+            L=L2ToL1(L2)
+        print("L=")
+        print(L)
+    
+            
+
+        
+    
+def LisToDic(L):
+    n=len(L)
+    D={}
+    for i in range(n):
+        d[i]=L[i]
+    return D
+
+
+
+'''L2= liste dont les éléments sont de la forme: [indice,[liste des voeux de la fille]] 
+La fonction prend en paramètre la liste Lval contenant des voeux de filles et retourne une liste sur le modèle de L2 qui informe donc à la fois sur le voeux en lui même et sur l'indice de la fille correspondante.
+L2 contient tout les élèment de la liste avec leur indices ce qui permet à la fonction d'associer les valeurs de Lval au bons indices. '''
+def ValToIndice(Lval,L2):
+    L=[]                
+    L_inter= L2[:]
+    for v in Lval:
+        t=1
+        i=0
+        while t>0 and i< len(L_inter):
+            if v==L_inter[i][1]:
+                L.append([L_inter[i][0],v[:]])
+                t=-1
+            i=i+1
+        L_inter.pop(i-1)
+    return L
+ 
+
+
+'''Fonction qui transforme une liste L1 de type [[ , ], [],...] en liste L2 de type [[indice,[ , ]], [indice,[]], ...] où "indice" désigne l'indice de l'élèment dans la liste L1 '''
+def L1ToL2(L1):
+    L2=[]
+    n=len(L1)
+    for i in range(n):
+        
+        L2.append([i,L1[i]])
+    return L2
+
+
+'''Attention cette fonction classe les uns à la suite des autre le deuxième élèment des élèments de L2 dans une liste L2. Autrement dit, l'indice d'un élèment dans L1 ne correspond pas forcément à son véritable indice (celui qui est donné dans L2)'''
+def L2ToL1(L2):
+    n=len(L2)
+    L1=[0]*n
+    
+    for i in range(n):
+        L1[i]=L2[i][1][:]
+        
+    return L1
+
+
+
+
+Ln=[[4],[1,2],[3],[5],[3,1,7,8],[1],[2],[1,2],[1]]
+Lpp=[[1,2,3,5,46],[46,42,45,56],[1,2,3],[2,1],[3,2],[54,78,99,62],[99],[19,97],[19,97],[100],[100,33,55,77,12],[33,55]]
+Lval=[[3],[1,2]]
+L2=L1ToL2(Ln)
+#print(L2)
+#print("\n")
+#print(ValToIndice(Ln,L2))
+LemMariage(Lpp)
+
+
+
+
+#def DicToLis(D):
+#    K=D.keys()
+ #   for 
